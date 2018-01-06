@@ -68,11 +68,8 @@ program
             }
         })
 
-        let bigger = {},
-            smaller = {},
-            noChange = {},
-            onlyInOld = {},
-            onlyInNew = {};
+        let someChange = {},
+            noChange = {};
 
         _.forEach(oldAssets, (value, key) => {
 
@@ -82,22 +79,22 @@ program
             }
 
             if (value.diff > 0) {
-                bigger[key] = value;
+                someChange[key] = value;
                 return;
             }
 
             if (value.diff < 0) {
-                smaller[key] = value;
+                someChange[key] = value;
                 return;
             }
 
             if (value.oldSize && !value.newSize) {
-                onlyInOld[key] = value;
+                someChange[key] = value;
                 return;
             }
 
             if (value.newSize && !value.oldSize) {
-                onlyInNew[key] = value;
+                someChange[key] = value;
                 return;
             }
         });
@@ -113,17 +110,17 @@ program
             return ret;
         }
 
-        bigger = _.mapValues(bigger, format);
-        smaller = _.mapValues(smaller, format);
+        someChange = _.mapValues(someChange, format);
         noChange = _.mapValues(noChange, format);
-        onlyInOld = _.mapValues(onlyInOld, format);
-        onlyInNew = _.mapValues(onlyInNew, format);
 
         function convertToString(obj) {
             let st = '';
             _.forEach(obj, function (value, key) {
-                let row = `<tr><td>${key}</td><td>${value.oldSize}</td><td>${value.newSize}</td><td>${value.diff}</td><td>${value.pdiff}</td></tr>`;
+                if(value.diff !=0 && !key.endsWith(".map"))
+                {
+                let row = ` ${key} | ${value.oldSize} | ${value.newSize} | ${value.diff} | ${value.pdiff}  \n`;
                 st += row;
+                }
             });
 
             return st;
@@ -131,16 +128,12 @@ program
 
         if (!fs.existsSync(outputPath)) fs.mkdirSync(outputPath);
 
-        fs.writeFileSync(path.resolve(outputPath, 'styles.css'), fs.readFileSync(path.resolve(__dirname, 'styles.css')));
 
-        let tmpl = _.template(fs.readFileSync(path.resolve(__dirname, 'index.html')));
+        let tmpl = _.template(fs.readFileSync(path.resolve(__dirname, 'index.MD')));
 
-        fs.writeFileSync(path.resolve(outputPath, 'index.html'), tmpl({
-            bigger: convertToString(bigger),
-            smaller: convertToString(smaller),
-            same: convertToString(noChange),
-            onlyOld: convertToString(onlyInOld),
-            onlyNew: convertToString(onlyInNew)
+        fs.writeFileSync(path.resolve(outputPath, 'index.MD'), tmpl({
+            someChanges: convertToString(someChange),
+            same: convertToString(noChange)
         }));
 
 

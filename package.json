@@ -1,7 +1,7 @@
 {
-  "name": "webpack-compare",
+  "name": "webpack-compare-markdown",
   "version": "0.2.0",
-  "description": "Compares file sizes between two stats.json objects.  Useful for comparing results of different configurations.",
+  "description": "Compares file sizes between two stats.json objects.  Useful for comparing results of different configurations. Output format is markdown",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -14,14 +14,15 @@
     }
   },
   "bin": {
-    "webpack-compare": "index.js"
+    "webpack-compare-markdown": "index.js"
   },
   "keywords": [
     "webpack",
     "compare",
-    "build"
+    "build",
+    "markdown"
   ],
-  "author": "Frank Bruzzese <bruzzese.frank@gmail.com>",
+  "author": "Joel Dickson",
   "license": "ISC",
   "dependencies": {
     "chalk": "^1.1.3",
@@ -35,10 +36,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Southpaw17/webpack-compare.git"
+    "url": "git+https://github.com/dicko2/webpack-compare.git"
   },
   "bugs": {
-    "url": "https://github.com/Southpaw17/webpack-compare/issues"
+    "url": "https://github.com/dicko2/webpack-compare/issues"
   },
-  "homepage": "https://github.com/Southpaw17/webpack-compare#readme"
+  "homepage": "https://github.com/dicko2/webpack-compare#readme"
 }
